@@ -24,7 +24,7 @@ If Z does not escape after a certain number of iterations, the point is consider
 function point(x: number ,y: number, maxSteps: number): number {
     let a = 0;
     let b = 0;
-    // let steps = 0;
+    let steps = 0;
     
 for (let i = 0; i < maxSteps; i++) 
 {
@@ -33,9 +33,10 @@ for (let i = 0; i < maxSteps; i++)
     const ynew =  2 * a * b + y;
     
     const modulusZ = xnew**2 + ynew**2;
-    if (modulusZ >=4){return i}
+    if (modulusZ >4){return steps;}
     a= xnew ;
     b= ynew ;
+    steps++;
 }
 return maxSteps;
 }
@@ -64,24 +65,26 @@ function testPoint(xMath: number, yMath: number, maxSteps: number): number {
   // Didn't escape
   return maxSteps;
 }
+//{ x: 1, y: 0 }
+console.log("compare : ",point(1, 0, 1000), testPoint(1, 0, 1000))
 
 console.log("Testing points inside the Mandelbrot set:");
 const inside = [
-  { x: 0, y: 0 },          // main cardioid
-  { x: -1, y: 0 },         // deep inside
-  { x: -0.5, y: 0 },       // inside cardioid
-  { x: -0.75, y: 0 },      // boundary-ish but still usually inside
-  { x: -0.25, y: 0.5 },    // inside bulb area
+  { x: 0, y: 0 },
+  { x: -1, y: 0 },
+  { x: -0.5, y: 0 },
+  { x: -0.75, y: 0 },
+  { x: -0.25, y: 0.5 },
   { x: -0.25, y: -0.5 },
 ];
 
 for (let i = 0; i < inside.length; i++) {
   const { x, y } = inside[i];
-  const result = point(x, y, 1000)==testPoint(x, y, 1000);
-  console.log(result);
+  const result = point(x, y, 1000) == testPoint(x, y, 1000);
+  console.log(`x: ${x}, y: ${y} | Match: ${result}`);
 }
 
-console.log("Testing points outside the Mandelbrot set:");
+console.log("\nTesting points outside the Mandelbrot set:");
 const outside = [
   { x: 1, y: 0 },
   { x: 0.5, y: 0.5 },
@@ -91,15 +94,13 @@ const outside = [
   { x: 2, y: 2 },
 ];
 
-
 for (let i = 0; i < outside.length; i++) {
   const { x, y } = outside[i];
-  const result = point(x, y, 1000)==testPoint(x, y, 1000);
-  console.log(result);
+  const result = point(x, y, 1000) == testPoint(x, y, 1000);
+  console.log(`x: ${x}, y: ${y} | Match: ${result}`);
 }
 
-console.log("Testing points on the boundary of the Mandelbrot set:");
-
+console.log("\nTesting points on the boundary of the Mandelbrot set:");
 const boundary = [
   { x: -0.75, y: 0.1 },
   { x: -0.7435, y: 0.1314 },
@@ -110,7 +111,6 @@ const boundary = [
 
 for (let i = 0; i < boundary.length; i++) {
   const { x, y } = boundary[i];
-  const result = point(x, y, 1000)==testPoint(x, y, 1000);
-  console.log(result);
+  const result = point(x, y, 1000) == testPoint(x, y, 1000);
+  console.log(`x: ${x}, y: ${y} | Match: ${result}`);
 }
-
